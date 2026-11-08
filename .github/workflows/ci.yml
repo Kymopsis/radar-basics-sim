@@ -1,0 +1,23 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install numpy matplotlib pytest
+      - run: pytest -q
+      - name: Run examples (headless)
+        env:
+          MPLBACKEND: Agg
+          RADAR_SIM_NO_SHOW: "1"
+        run: |
+          for f in examples/*.py; do echo "== $f"; python "$f" --no-plot; done

@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "radar-sim"
+version = "0.1.0"
+description = "Readable FMCW / TDM-MIMO radar simulator with worked examples (range, Doppler, angle, CFAR, MUSIC)"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+dependencies = ["numpy>=1.22"]
+optional-dependencies = {plot = ["matplotlib>=3.5"]}
+
+[tool.setuptools]
+packages = ["radar_sim"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
