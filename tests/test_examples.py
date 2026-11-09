@@ -63,3 +63,13 @@ def test_ch19_gantry_height():
 
 def test_ch20_resolution():
     assert "range res c/2B  60.0 cm" in run("ch20_frequency_bands.py")
+
+
+def test_ch21_chain():
+    out = run("ch21_processing_chain.py")
+    assert float(re.search(r"max relative difference ([\d.e+-]+)", out).group(1)) < 1e-9
+    m = re.search(r"SNR 20 dB: 64-pt FFT\s+([\d.]+)\s+DFT 0.25deg grid\s+([\d.]+)\s+split-phase\s+([\d.]+)", out)
+    assert float(m.group(3)) < 0.2 and float(m.group(2)) < 0.2
+    assert "2 confirmed tracks" in out
+    t, raw = map(float, re.search(r"tracker RMS error ([\d.]+) m vs raw detection RMS ([\d.]+) m", out).groups())
+    assert t < raw
