@@ -78,17 +78,17 @@ def angle_dft_at(snap, pos, grid_deg):
 def angle_split_phase(snap, pos, coarse_grid_deg, sub=4):
     """1. coarse angle: DFT over the first `sub` channels on a coarse grid (cheap, wide beam)
        2. fine angle: form two half-array beams steered to the coarse angle, take the phase between them.
-          Their phase centres are B = (N/2)*d apart, so dphi = 2*pi*B*(sin th - sin th0); solve for th.
-          The coarse step must keep the residual inside the unambiguous +-lambda/(2B) window."""
+          Their phase centres are D = (N/2)*d apart, so dphi = 2*pi*D*(sin th - sin th0); solve for th.
+          The coarse step must keep the residual inside the unambiguous +-lambda/(2D) window (D is the baseline, not the bandwidth)."""
     n = len(pos)
     th0, _ = angle_dft_at(snap[:sub], pos[:sub], coarse_grid_deg)
     a0 = steering(pos, th0)[0]
     h = n // 2
     left = a0[:h].conj() @ snap[:h]
     right = a0[h:].conj() @ snap[h:]
-    B = pos[h:].mean() - pos[:h].mean()
+    D = pos[h:].mean() - pos[:h].mean()           # baseline between the half-array phase centres (lambda)
     dphi = np.angle(right * np.conj(left))
-    s = np.sin(np.radians(th0)) + dphi / (2 * np.pi * B)
+    s = np.sin(np.radians(th0)) + dphi / (2 * np.pi * D)
     return float(np.degrees(np.arcsin(np.clip(s, -1, 1)))), th0
 
 
@@ -111,8 +111,8 @@ def beam_monopulse(elem, pos, beam_grid_deg):
     left = a[:, :h].conj() @ elem[:h]
     right = a[:, h:].conj() @ elem[h:]
     i = int(np.argmax(np.abs(left + right)))
-    B = pos[h:].mean() - pos[:h].mean()
-    s = np.sin(np.radians(beam_grid_deg[i])) + np.angle(right[i] * np.conj(left[i])) / (2 * np.pi * B)
+    D = pos[h:].mean() - pos[:h].mean()           # baseline between the half-array phase centres (lambda)
+    s = np.sin(np.radians(beam_grid_deg[i])) + np.angle(right[i] * np.conj(left[i])) / (2 * np.pi * D)
     return float(np.degrees(np.arcsin(np.clip(s, -1, 1)))), float(beam_grid_deg[i])
 
 

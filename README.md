@@ -18,7 +18,7 @@ is not part of this repository; the plots below are what the scripts here produc
 ```bash
 git clone https://github.com/Kymopsis/radar-basics-sim
 cd radar-basics-sim
-pip install numpy matplotlib scipy
+pip install numpy matplotlib scipy   # or: pip install ".[plot]"
 python examples/ch09_range_doppler.py      # prints each target's range and velocity, saves out/ch09_rd.png
 ```
 
