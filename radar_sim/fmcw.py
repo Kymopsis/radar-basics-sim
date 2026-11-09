@@ -66,6 +66,7 @@ def cube(radar: Radar, targets, seed=0, motion=True):
     """Return complex cube [n_chirps, n_virtual, n_samples]."""
     rng = np.random.default_rng(seed)
     n = np.arange(radar.n_samples) / radar.fs
+    f0 = radar.fc - radar.slope * radar.n_samples / radar.fs / 2   # frequency at the first sample
     virt = radar.virtual()
     ntx, nrx = len(radar.tx), len(radar.rx)
     out = np.zeros((radar.n_chirps, len(virt), radar.n_samples), complex)
@@ -77,7 +78,10 @@ def cube(radar: Radar, targets, seed=0, motion=True):
                 t0 = m * radar.t_frame_chirp + it * radar.t_chirp
                 r = t.r + (t.v * t0 if motion else 0.0)
                 fb = 2 * radar.slope * r / C
-                ph = 4 * np.pi * r / radar.lam
+                # carrier phase at the first ADC sample: the 2*pi*fb*n term below already sweeps
+                # the rest of the ramp, so start at fc - (sampled bandwidth)/2 (ADC window centred on
+                # the ramp); the range FFT then sees an effective carrier of exactly fc
+                ph = 4 * np.pi * r * f0 / C
                 for ir in range(nrx):
                     k = it * nrx + ir
                     d = virt[k]

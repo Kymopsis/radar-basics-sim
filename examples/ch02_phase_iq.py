@@ -16,16 +16,11 @@ for d in disp:
     iq.append(rp[k])
 iq = np.array(iq)
 phi = np.unwrap(np.angle(iq))
-# With a fixed range bin, the bin phase follows the carrier at the centre of the sampled sweep,
-# fc + S*t_mid, not fc itself: the beat term 2*pi*fb*t adds 4*pi*R*S*t_mid/c. Using fc alone
-# would scale the recovered motion by about 3 % on a 4 GHz sweep.
-t_mid = (r.n_samples - 1) / (2 * r.fs)
-lam_eff = C / (r.fc + r.slope * t_mid)
-est = (phi - phi[0]) * lam_eff / (4 * np.pi) + disp[0]
-est_naive = (phi - phi[0]) * lam / (4 * np.pi) + disp[0]
+# The bin phase follows the carrier at the centre of the sampled sweep (the beat term 2*pi*fb*t adds
+# 4*pi*R*S*t/c across the ramp). The model's fc is that centre frequency, so lambda = c/fc converts directly.
+est = (phi - phi[0]) * lam / (4 * np.pi) + disp[0]
 print(f"wavelength {lam*1e3:.2f} mm, one phase turn per {lam/2*1e3:.2f} mm, {lam/720*1e6:.1f} um per degree")
-print(f"peak phase swing {np.degrees(phi.max()-phi.min())/2:.0f} deg, RMS error of recovered displacement (noise-free model) {np.sqrt(np.mean((est-disp)**2))*1e6:.2f} um "
-      f"(using fc instead of the sweep-centre frequency: {np.sqrt(np.mean((est_naive-disp)**2))*1e6:.1f} um)")
+print(f"peak phase swing {np.degrees(phi.max()-phi.min())/2:.0f} deg, RMS error of recovered displacement (noise-free model) {np.sqrt(np.mean((est-disp)**2))*1e6:.2f} um")
 if not o.no_plot:
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots(1, 2, figsize=(11, 4.5))

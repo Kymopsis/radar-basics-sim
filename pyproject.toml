@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "radar-sim"
-version = "0.2.1"
+version = "0.2.2"
 description = "Readable FMCW / TDM-MIMO radar simulator with worked examples (range, Doppler, angle, CFAR, MUSIC)"
 readme = "README.md"
 license = {text = "MIT"}
