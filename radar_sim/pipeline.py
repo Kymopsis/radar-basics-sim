@@ -96,7 +96,7 @@ def tdm_phase_comp(snap, d, n_chirps, n_tx, n_rx):
     """TDM-MIMO: transmitter k fires k chirp slots after transmitter 0, so a mover adds a phase
     2*pi*fd*k*Tc to its channels. With the Doppler FFT taken per transmitter (n_chirps loops), the shifted
     bin index d gives that phase as 2*pi*(d - n_chirps/2)/(n_chirps*n_tx) per slot (valid inside the
-    unambiguous Doppler span; outside it, see chapter 16)."""
+    unambiguous Doppler span; outside it, see chapter 15)."""
     k = np.repeat(np.arange(n_tx), n_rx)
     return snap * np.exp(-2j * np.pi * (d - n_chirps // 2) * k / (n_chirps * n_tx))
 

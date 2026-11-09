@@ -1,4 +1,4 @@
-"""Chapter 14: cell-averaging CFAR on a noisy range profile — threshold follows the noise floor."""
+"""Chapter 16: cell-averaging CFAR on a noisy range profile — threshold follows the noise floor."""
 import numpy as np
 from _common import args, show
 from radar_sim import make, Target, cube, range_fft, ca_cfar_1d

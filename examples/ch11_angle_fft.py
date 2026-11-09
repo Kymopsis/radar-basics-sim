@@ -1,15 +1,7 @@
-"""Chapter 11: angle of arrival from the phase difference between receive channels (1T4R)."""
-import numpy as np
-from _common import args, show
-from radar_sim import make, Target, cube, rd_map, angle_spectrum
+"""Old name, kept so earlier links and commands keep working: since the 2026-11-09 renumbering of
+Radar Principles this example is ch12_angle_fft.py. This file only runs it, with the same arguments."""
+import pathlib, runpy, sys
 
-o = args(__doc__).parse_args()
-r = make("1T4R")
-for az in [-40, -10, 0, 25]:
-    m, rr, vv, rd = rd_map(r, cube(r, [Target(3.0, 0.5, az=az)]))
-    iv, ir = np.unravel_index(np.argmax(m), m.shape)
-    snap = rd[iv, :, ir]
-    dphi = np.degrees(np.angle(snap[1] / snap[0]))
-    est = np.degrees(np.arcsin(np.radians(dphi) / np.pi))
-    ang = np.linspace(-90, 90, 1801); sp = angle_spectrum(snap, r.virtual()[:, 0], ang)
-    print(f"true {az:+d} deg: adjacent phase diff {dphi:+.1f} deg -> {est:+.1f} deg; FFT/Bartlett peak {ang[np.argmax(sp)]:+.1f} deg")
+new = pathlib.Path(__file__).resolve().with_name("ch12_angle_fft.py")
+sys.argv[0] = str(new)
+runpy.run_path(str(new), run_name="__main__")

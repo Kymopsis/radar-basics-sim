@@ -12,14 +12,14 @@ def run(name, *extra):
 
 
 @pytest.mark.parametrize("vt", [30.0, -22.5, 7.3])
-def test_ch16_two_interval_unfolding(vt):
-    m = re.search(r"unfolded ([-+\d.]+) m/s", run("ch16_ambiguity.py", "--vt", str(vt)))
+def test_ch15_two_interval_unfolding(vt):
+    m = re.search(r"unfolded ([-+\d.]+) m/s", run("ch15_ambiguity.py", "--vt", str(vt)))
     assert abs(float(m.group(1)) - vt) < 0.01
 
 
 @pytest.mark.parametrize("v", [9.0, -9.0, 4.0])
-def test_ch16_tdm_fold(v):
-    m = re.search(r"chosen ([-+\d.]+) m/s at ([-+\d.]+) deg", run("ch16_ambiguity.py", "--v", str(v)))
+def test_ch15_tdm_fold(v):
+    m = re.search(r"chosen ([-+\d.]+) m/s at ([-+\d.]+) deg", run("ch15_ambiguity.py", "--v", str(v)))
     assert abs(float(m.group(1)) - v) < 0.5 and abs(float(m.group(2)) - 20.0) < 1.0
 
 
@@ -28,15 +28,15 @@ def test_ch02_phase_displacement():
     assert float(m.group(1)) < 1.0
 
 
-def test_ch08_phase_reaches_bound():
-    for line in run("ch08_phase_precision.py").splitlines():
+def test_ch09_phase_reaches_bound():
+    for line in run("ch09_phase_precision.py").splitlines():
         m = re.search(r"phase std\s+([\d.]+) um \(bound\s+([\d.]+) um\)", line)
         if m:
             assert float(m.group(1)) < 1.3 * float(m.group(2))
 
 
-def test_ch12_numbers():
-    out = run("ch12_antenna_aperture.py")
+def test_ch04_numbers():
+    out = run("ch04_antenna_aperture.py")
     assert "20.0 mm square aperture:  20.9 dBi, beam  12.6 deg" in out
     assert "first sidelobe: -13.3 dB" in out
 
@@ -45,8 +45,8 @@ def test_ch13_half_wave():
     assert "half-wave wall 1.14 mm" in run("ch13_radome_wall.py")
 
 
-def test_ch14_tracker_beats_raw():
-    m = re.search(r"tracker RMS error ([\d.]+) m vs raw detection RMS ([\d.]+) m", run("ch14_cfar_tracking.py"))
+def test_ch16_tracker_beats_raw():
+    m = re.search(r"tracker RMS error ([\d.]+) m vs raw detection RMS ([\d.]+) m", run("ch16_cfar_tracking.py"))
     assert float(m.group(1)) < float(m.group(2))
 
 
