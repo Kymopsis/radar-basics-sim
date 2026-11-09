@@ -4,7 +4,7 @@ import matplotlib; matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); sys.path.insert(0, ".")
 cells = [
-("md", "# Radar Principles: quick start\n\nA guided tour of `radar_sim`, the companion code for the [Radar Principles](https://kymopsis.com/series/radar-basics/) series. "
+("md", "# Radar Principles: quick start\n\nA guided tour of `radar_sim`, the companion code for the [Radar Principles](https://kymopsis.com/series/radar-principles/) series. "
        "One simulated 60 GHz FMCW radar, followed from raw samples to range, velocity and angle. Each step links to the chapter that explains it.\n\n"
        "Textbook point-target model, not any product. Run `pip install numpy matplotlib scipy` first."),
 ("code", "import numpy as np\nimport matplotlib.pyplot as plt\nfrom radar_sim import make, Target, cube, range_fft, rd_map, angle_spectrum\n\n"
@@ -17,19 +17,19 @@ cells = [
 ("code", "rp = np.abs(range_fft(data))[0, 0]\nr_axis = np.arange(len(rp)) * radar.range_res\n"
          "plt.figure(figsize=(8, 3)); plt.plot(r_axis, 20 * np.log10(rp + 1e-12)); plt.xlim(0, 5)\n"
          "plt.xlabel(\"range (m)\"); plt.ylabel(\"dB\"); plt.title(\"range profile, one chirp\"); plt.show()"),
-("md", "## 3. Range-Doppler map\n\nA second FFT across chirps gives radial velocity (chapter 9)."),
+("md", "## 3. Range-Doppler map\n\nA second FFT across chirps gives radial velocity (chapter 10)."),
 ("code", "m, ranges, velocities, rd = rd_map(radar, data)\n"
          "plt.figure(figsize=(8, 4)); plt.imshow(10 * np.log10(m + 1e-12), aspect=\"auto\", origin=\"lower\",\n"
          "    extent=[ranges[0], ranges[-1], velocities[0], velocities[-1]], vmin=-40)\n"
          "plt.xlim(0, 5); plt.xlabel(\"range (m)\"); plt.ylabel(\"velocity (m/s)\"); plt.colorbar(label=\"dB\"); plt.show()"),
 ("md", "## 4. Angle from the virtual channels\n\nFor each peak cell, the 8 channel values form a snapshot; an FFT/Bartlett scan across them gives angle "
-       "(chapters 11 and 15). Note: with TDM-MIMO, a moving target needs Doppler compensation first (chapter 15); the static target is exact."),
+       "(chapters 12 and 14). Note: with TDM-MIMO, a moving target needs Doppler compensation first (chapter 15); the static target is exact."),
 ("code", "ang = np.linspace(-90, 90, 721)\nfor t in targets:\n"
          "    ir = int(np.argmin(np.abs(ranges - t.r))); iv = int(np.argmin(np.abs(velocities - t.v)))\n"
          "    sp = angle_spectrum(rd[iv, :, ir], radar.virtual()[:, 0], ang)\n"
          "    print(f\"target at {t.r} m, {t.v:+.1f} m/s, true {t.az:+d} deg -> peak {ang[np.argmax(sp)]:+.1f} deg\")"),
 ("md", "## Next\n\nEach chapter has its own script in `examples/` (run with `--no-plot` for numbers only), e.g. "
-       "`python examples/ch08_phase_precision.py` for micrometre ranging from phase, or `python examples/ch19_4d_point_cloud.py` "
+       "`python examples/ch09_phase_precision.py` for micrometre ranging from phase, or `python examples/ch19_4d_point_cloud.py` "
        "for a full 4D point cloud."),
 ]
 ns, nb_cells, ec = {}, [], 0

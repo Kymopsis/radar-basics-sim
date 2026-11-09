@@ -1,4 +1,4 @@
-"""Chapter 17: two targets 8 deg apart — FFT/Bartlett vs Capon vs MUSIC on an 8-element half-wavelength array."""
+"""Chapter 18: two targets 8 deg apart — FFT/Bartlett vs Capon vs MUSIC on an 8-element half-wavelength array."""
 import numpy as np
 from _common import args, show
 from radar_sim import angle_spectrum, capon, music
