@@ -1,4 +1,4 @@
-"""Minimal FMCW MIMO radar simulator for the Radar Basics series (textbook model, not any product).
+"""Minimal FMCW MIMO radar simulator for the Radar Principles series (textbook model, not any product).
 
 Signal model (dechirped, complex baseband, ideal point targets, TDM-MIMO):
   s[chirp m, virtual channel k, sample n] =

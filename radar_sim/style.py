@@ -1,4 +1,4 @@
-"""Shared figure + animation style for the Kymopsis Radar Basics series.
+"""Shared figure + animation style for the Kymopsis Radar Principles series.
 Every chapter imports this so all figures and loops look the same."""
 import os, subprocess, tempfile, shutil
 import numpy as np
