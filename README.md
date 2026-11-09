@@ -33,14 +33,19 @@ rd, ranges, velocities, _ = rd_map(radar, data)
 
 | Script | What it solves | Chapter |
 | --- | --- | --- |
+| `examples/ch02_phase_iq.py` | Displacement from unwrapped echo phase, I/Q circle | 2 · Phase and the I/Q signal |
+| `examples/ch03_multipath.py` | Two-ray multipath: echo gain and nulls against range | 3 · Interference and multipath |
+| `examples/ch04_radar_equation.py` | Received SNR and detection range from the radar equation | 4 · Radar equation and SNR |
 | `examples/ch05_beat_frequency.py` | Range from the beat frequency, R = fb·c / 2S | 5 · FMCW chirp and beat frequency |
 | `examples/ch06_range_resolution.py` | When two targets merge into one peak (c/2B) | 6 · Range FFT and range bins |
 | `examples/ch07_peak_interpolation.py` | Range precision inside one bin vs SNR (Monte Carlo) | 7 · Precise range inside a bin |
 | `examples/ch09_range_doppler.py` | Range-Doppler map, range and velocity per target | 9 · Doppler and slow time |
+| `examples/ch10_micro_doppler.py` | Walking-person spectrogram; breathing and heart rate from phase | 10 · Micro-Doppler and vital signs |
 | `examples/ch11_angle_fft.py` | Angle from the phase difference between receivers | 11 · Angle from phase |
 | `examples/cfar_1d.py` | Cell-averaging CFAR detection on a range profile | 14 · Detection and tracking |
 | `examples/ch15_mimo_virtual_array.py` | 1T4R vs 2T4R virtual array beamwidth | 15 · MIMO virtual arrays |
-| `examples/ch17_music_vs_fft.py` | Two close targets: FFT vs Capon vs MUSIC | 17 · Super-resolution |
+| `examples/ch16_ambiguity.py` | Velocity unfolding with two chirp intervals; TDM-MIMO fold test | 16 · Ambiguity and unfolding |
+| `examples/ch18_music_vs_fft.py` | Two close targets: FFT vs Capon vs MUSIC | 18 · Super-resolution |
 
 Every script runs with `--no-plot` to print results only.
 
