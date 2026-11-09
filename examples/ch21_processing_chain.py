@@ -154,43 +154,67 @@ if __name__ == "__main__":
     if not o.no_plot:
         import matplotlib.pyplot as plt
         from radar_sim.style import head, foot, C1, C2, C3, C4, MUTED, INK
+        SUB = "2T8R TDM-MIMO (16 virtual channels), 60.5 GHz, 4 GHz sweep. Simulation, textbook point targets."
+
+        def panel_rd(ax, fs=15):
+            ax.imshow(10 * np.log10(p + 1e-12), aspect="auto", origin="lower", cmap="viridis",
+                      extent=[ranges[0], ranges[-1], vel[0], vel[-1]])
+            ax.plot(ranges[det[:, 1]], vel[det[:, 0]], "o", mfc="none", mec="#ff4d4d", ms=14, mew=2)
+            ax.set_xlim(0, 7); ax.set_xlabel("range (m)"); ax.set_ylabel("velocity (m/s)")
+
+        def panel_acc(ax, fs=12):
+            s = sorted(acc)
+            for key, col, lab in (("fft64", C3, "64-point FFT over channels"), ("dft", C2, "DFT at detection, 0.25° grid"),
+                                  ("split", C1, "coarse 4-ch DFT + half-array phase"),
+                                  ("aesa", C4, "analog beam (5° steps) + monopulse")):
+                ax.semilogy(s, [acc[k][key] for k in s], "o-", color=col, lw=2.5, label=lab)
+            ax.set_xlabel("per-channel SNR at the detection (dB)"); ax.set_ylabel("RMS angle error (deg)")
+            ax.legend(frameon=False, fontsize=fs)
+
+        def panel_cost(ax, fs=13):
+            names = ["full 3D FFT\n(every cell)", "DFT at\ndetections", "split-phase at\ndetections"]
+            vals = list(ops.values())
+            ax.barh(names, vals, color=[C3, C2, C1]); ax.set_xscale("log")
+            for i, v in enumerate(vals):
+                ax.text(v * 1.2, i, f"{v:,.0f}", va="center", fontsize=fs, color=INK)
+            ax.set_xlim(50, 3e7); ax.set_xlabel("complex multiplies per frame (angle step only)")
+
+        def panel_tracks(ax, fs=12):
+            for zs in raw:
+                for z in zs:
+                    ax.plot(z[0], z[1], ".", color="#b8bfcc", ms=6)
+            ax.plot(truth[:, 0, 0], truth[:, 0, 1], "--", color=MUTED, lw=1.5)
+            ax.plot(truth[:, 1, 0], truth[:, 1, 1], "--", color=MUTED, lw=1.5, label="true path")
+            for i, pts in enumerate(tracks.values()):
+                xy = np.array([x for _, x in pts])
+                ax.plot(xy[:, 0], xy[:, 1], "-", color=[C1, C2, C4, C3][i % 4], lw=3, label=f"track {i+1}")
+            ax.plot(0, 0, "^", color=INK, ms=12)
+            ax.set_xlim(-3, 3); ax.set_ylim(0, 6.5)
+            ax.set_xlabel("x (m)"); ax.set_ylabel("y (m)"); ax.legend(frameon=False, fontsize=fs, loc="upper left")
+
+        # overview (README gallery)
         fig = plt.figure(figsize=(16, 10))
-        head(fig, "The real-time chain: CFAR first, then angle only where something was found",
-             "2T8R TDM-MIMO (16 virtual channels), 60.5 GHz, 4 GHz sweep. Simulation, textbook point targets.")
-        ax = fig.add_axes([0.06, 0.50, 0.40, 0.31])
-        im = ax.imshow(10 * np.log10(p + 1e-12), aspect="auto", origin="lower", cmap="viridis",
-                       extent=[ranges[0], ranges[-1], vel[0], vel[-1]])
-        ax.plot(ranges[det[:, 1]], vel[det[:, 0]], "o", mfc="none", mec="#ff4d4d", ms=14, mew=2)
-        ax.set_xlim(0, 7); ax.set_xlabel("range (m)"); ax.set_ylabel("velocity (m/s)")
-        ax.set_title("1  Range-Doppler map, CFAR detections circled", loc="left", fontsize=15)
-        ax = fig.add_axes([0.56, 0.50, 0.40, 0.31])
-        s = sorted(acc)
-        for key, col, lab in (("fft64", C3, "64-point FFT over channels"), ("dft", C2, "DFT at detection, 0.25° grid"),
-                              ("split", C1, "coarse 4-ch DFT + half-array phase"),
-                              ("aesa", C4, "analog beam (5° steps) + monopulse")):
-            ax.semilogy(s, [acc[k][key] for k in s], "o-", color=col, lw=2.5, label=lab)
-        ax.set_xlabel("per-channel SNR at the detection (dB)"); ax.set_ylabel("RMS angle error (deg)")
-        ax.legend(frameon=False, fontsize=12); ax.set_title("2  Angle accuracy", loc="left", fontsize=15)
-        ax = fig.add_axes([0.14, 0.12, 0.32, 0.28])
-        names = ["full 3D FFT\n(every cell)", "DFT at\ndetections", "split-phase at\ndetections"]
-        vals = list(ops.values())
-        ax.barh(names, vals, color=[C3, C2, C1]); ax.set_xscale("log")
-        for i, v in enumerate(vals):
-            ax.text(v * 1.2, i, f"{v:,.0f}", va="center", fontsize=13, color=INK)
-        ax.set_xlim(50, 3e7); ax.set_xlabel("complex multiplies per frame (angle step only)")
-        ax.set_title("3  Cost: 64 x 128 cells, 30 detections", loc="left", fontsize=15)
-        ax = fig.add_axes([0.56, 0.12, 0.40, 0.28])
-        for zs in raw:
-            for z in zs:
-                ax.plot(z[0], z[1], ".", color="#b8bfcc", ms=6)
-        ax.plot(truth[:, 0, 0], truth[:, 0, 1], "--", color=MUTED, lw=1.5)
-        ax.plot(truth[:, 1, 0], truth[:, 1, 1], "--", color=MUTED, lw=1.5, label="true path")
-        for i, pts in enumerate(tracks.values()):
-            xy = np.array([x for _, x in pts])
-            ax.plot(xy[:, 0], xy[:, 1], "-", color=[C1, C2, C4, C3][i % 4], lw=3, label=f"track {i+1}")
-        ax.plot(0, 0, "^", color=INK, ms=12)
-        ax.set_xlim(-3, 3); ax.set_ylim(0, 6.5)
-        ax.set_xlabel("x (m)"); ax.set_ylabel("y (m)"); ax.legend(frameon=False, fontsize=12, loc="upper left")
-        ax.set_title("4  Detections (grey) and confirmed tracks", loc="left", fontsize=15)
+        head(fig, "The real-time chain: CFAR first, then angle only where something was found", SUB)
+        for rect, fn, title in (([0.06, 0.50, 0.40, 0.31], panel_rd, "1  Range-Doppler map, CFAR detections circled"),
+                                ([0.56, 0.50, 0.40, 0.31], panel_acc, "2  Angle accuracy"),
+                                ([0.14, 0.12, 0.32, 0.28], panel_cost, "3  Cost: 64 x 128 cells, 30 detections"),
+                                ([0.56, 0.12, 0.40, 0.28], panel_tracks, "4  Detections (grey) and confirmed tracks")):
+            ax = fig.add_axes(rect); fn(ax); ax.set_title(title, loc="left", fontsize=15)
         foot(fig, "radar-basics-sim · examples/ch21_processing_chain.py")
         show(fig, "ch21_processing_chain.png")
+
+        # the same four panels as single 16:9 figures (readable on a phone)
+        singles = (("ch21_rd_cfar.png", panel_rd, "Range-Doppler map with CFAR detections",
+                    "Non-coherent sum of 16 channels, 2-D CA-CFAR at Pfa 1e-6, 3x3 peaks (red circles)", [0.09, 0.13, 0.86, 0.68]),
+                   ("ch21_angle_accuracy.png", panel_acc, "Angle accuracy at a detection",
+                    "RMS error vs per-channel SNR, one target in ±40°, 600 trials per point", [0.09, 0.13, 0.86, 0.68]),
+                   ("ch21_angle_cost.png", panel_cost, "Cost of the angle step",
+                    "Complex multiplies per frame: 64 Doppler x 128 range cells, 30 detections", [0.18, 0.14, 0.76, 0.66]),
+                   ("ch21_tracks.png", panel_tracks, "Detections and confirmed tracks",
+                    "40 frames at 10 frames/s, two people walking; grey = detections, lines = tracks", [0.10, 0.12, 0.85, 0.70]))
+        for name, fn, title, sub, rect in singles:
+            fig = plt.figure(figsize=(16, 9))
+            head(fig, title, sub)
+            ax = fig.add_axes(rect); fn(ax, fs=15)
+            foot(fig, "radar-basics-sim · examples/ch21_processing_chain.py")
+            show(fig, name)
