@@ -58,7 +58,9 @@ def test_ch17_mvdr_null():
 def test_ch19_gantry_height():
     zs = [float(z) for x, y, z in re.findall(r"x\s+([-+\d.]+)\s+y\s+([\d.]+)\s+z\s+([\d.]+)", run("ch19_4d_point_cloud.py"))
           if float(y) > 28]
-    assert zs and all(5.0 < z < 6.2 for z in zs)
+    # true height 5.5 m; three gantry scatterers share range cells and the elevation aperture is only 3 lambda,
+    # so each point lands within about a metre (about 2 deg of elevation at 30 m)
+    assert zs and all(4.5 < z < 6.5 for z in zs) and abs(sum(zs) / len(zs) - 5.5) < 0.3
 
 
 def test_ch20_resolution():

@@ -24,10 +24,8 @@ def measure(r, snr_db, frames, r0=1.5, seed=0):
         a, b, c = m[k - 1], m[k], m[k + 1]
         d = 0.5 * (a - c) / (a - 2 * b + c)
         rng_pk.append((k + d) * rr.range_res); ph.append(np.angle(x[k0]))
-    t_mid = (rr.n_samples - 1) / (2 * rr.fs)
-    lam_eff = C / (rr.fc + rr.slope * t_mid)
     ph = np.unwrap(np.array(ph))
-    return rr, np.std(rng_pk), np.std(ph) * lam_eff / (4 * np.pi)
+    return rr, np.std(rng_pk), np.std(ph) * rr.lam / (4 * np.pi)   # fc is the sweep centre
 
 
 if __name__ == "__main__":
