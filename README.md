@@ -35,28 +35,28 @@ rd, ranges, velocities, _ = rd_map(radar, data)
 
 | Script | What it solves | Chapter |
 | --- | --- | --- |
-| `examples/ch01_wavelength.py` | Wavelength, λ/2 spacing, motion per phase turn, wavelength in plastic | 1 · Waves and wavelength |
-| `examples/ch02_phase_iq.py` | Displacement from unwrapped echo phase, I/Q circle | 2 · Phase and the I/Q signal |
-| `examples/ch03_multipath.py` | Two-ray multipath: echo gain and nulls against range | 3 · Interference and multipath |
-| `examples/ch04_antenna_aperture.py` | Gain and beamwidth from aperture size; directivity from beamwidths | 4 · Antennas: gain and beamwidth |
-| `examples/ch05_beat_frequency.py` | Range from the beat frequency, R = fb·c / 2S | 5 · FMCW chirp and beat frequency |
-| `examples/ch06_range_resolution.py` | When two targets merge into one peak (c/2B) | 6 · Range FFT and range bins |
-| `examples/ch07_radar_equation.py` | Received SNR and detection range from the radar equation | 7 · Radar equation and SNR |
-| `examples/ch08_peak_interpolation.py` | Range precision inside one bin vs SNR (Monte Carlo) | 8 · Precise range inside a bin |
-| `examples/ch09_phase_precision.py` | Range precision from the FFT peak vs from echo phase, against SNR | 9 · Phase ranging |
-| `examples/ch10_range_doppler.py` | Range-Doppler map, range and velocity per target | 10 · Doppler and slow time |
-| `examples/ch11_micro_doppler.py` | Walking-person spectrogram; breathing and heart rate from phase | 11 · Micro-Doppler and vital signs |
-| `examples/ch12_angle_fft.py` | Angle from the phase difference between receivers | 12 · Angle from phase |
-| `examples/ch13_radome_wall.py` | Half-wave radome walls; angle error from an uneven cover | 13 · Radomes |
-| `examples/ch14_mimo_virtual_array.py` | 1T4R vs 2T4R virtual array beamwidth | 14 · MIMO virtual arrays |
-| `examples/ch15_ambiguity.py` | Velocity unfolding with two chirp intervals; TDM-MIMO fold test | 15 · Ambiguity and unfolding |
-| `examples/ch16_cfar_tracking.py` | Pfa, CA/OS-CFAR loss, Albersheim, Kalman tracking with M-of-N confirmation | 16 · Detection and tracking |
+| `examples/ch01_wavelength.py` | Wavelength, λ/2 spacing, motion per phase turn, wavelength in plastic | [1 · Waves and wavelength](https://kymopsis.com/radar-basics-electromagnetic-waves-wavelength/?utm_source=github&utm_medium=readme&utm_campaign=radar-basics-sim) |
+| `examples/ch02_phase_iq.py` | Displacement from unwrapped echo phase, I/Q circle | [2 · Phase and the I/Q signal](https://kymopsis.com/radar-basics-phase-iq-complex-signal/?utm_source=github&utm_medium=readme&utm_campaign=radar-basics-sim) |
+| `examples/ch03_multipath.py` | Two-ray multipath: echo gain and nulls against range | [3 · Interference and multipath](https://kymopsis.com/radar-basics-wave-interference-multipath/?utm_source=github&utm_medium=readme&utm_campaign=radar-basics-sim) |
+| `examples/ch04_antenna_aperture.py` | Gain and beamwidth from aperture size; directivity from beamwidths | [4 · Antennas: gain and beamwidth](https://kymopsis.com/radar-level-sensor-antenna-20m-vs-60m/?utm_source=github&utm_medium=readme&utm_campaign=radar-basics-sim) |
+| `examples/ch05_beat_frequency.py` | Range from the beat frequency, R = fb·c / 2S | [5 · FMCW chirp and beat frequency](https://kymopsis.com/radar-basics-fmcw-chirp-beat-frequency/?utm_source=github&utm_medium=readme&utm_campaign=radar-basics-sim) |
+| `examples/ch06_range_resolution.py` | When two targets merge into one peak (c/2B) | [6 · Range FFT and range bins](https://kymopsis.com/radar-basics-range-fft-range-resolution/?utm_source=github&utm_medium=readme&utm_campaign=radar-basics-sim) |
+| `examples/ch07_radar_equation.py` | Received SNR and detection range from the radar equation | [7 · Radar equation and SNR](https://kymopsis.com/radar-basics-radar-equation-snr/?utm_source=github&utm_medium=readme&utm_campaign=radar-basics-sim) |
+| `examples/ch08_peak_interpolation.py` | Range precision inside one bin vs SNR (Monte Carlo) | [8 · Precise range inside a bin](https://kymopsis.com/radar-basics-sub-bin-range-precision/?utm_source=github&utm_medium=readme&utm_campaign=radar-basics-sim) |
+| `examples/ch09_phase_precision.py` | Range precision from the FFT peak vs from echo phase, against SNR | [9 · Phase ranging](https://kymopsis.com/fmcw-radar-phase-measurement/?utm_source=github&utm_medium=readme&utm_campaign=radar-basics-sim) |
+| `examples/ch10_range_doppler.py` | Range-Doppler map, range and velocity per target | [10 · Doppler and slow time](https://kymopsis.com/radar-basics-doppler-range-doppler-map/?utm_source=github&utm_medium=readme&utm_campaign=radar-basics-sim) |
+| `examples/ch11_micro_doppler.py` | Walking-person spectrogram; breathing and heart rate from phase | [11 · Micro-Doppler and vital signs](https://kymopsis.com/radar-basics-micro-doppler-vital-signs/?utm_source=github&utm_medium=readme&utm_campaign=radar-basics-sim) |
+| `examples/ch12_angle_fft.py` | Angle from the phase difference between receivers | [12 · Angle from phase](https://kymopsis.com/radar-angle-of-arrival-phase-difference/?utm_source=github&utm_medium=readme&utm_campaign=radar-basics-sim) |
+| `examples/ch13_radome_wall.py` | Half-wave radome walls; angle error from an uneven cover | [13 · Radomes](https://kymopsis.com/radome-design-mmwave-radar-24-80ghz/?utm_source=github&utm_medium=readme&utm_campaign=radar-basics-sim) |
+| `examples/ch14_mimo_virtual_array.py` | 1T4R vs 2T4R virtual array beamwidth | [14 · MIMO virtual arrays](https://kymopsis.com/mimo-radar-virtual-array/?utm_source=github&utm_medium=readme&utm_campaign=radar-basics-sim) |
+| `examples/ch15_ambiguity.py` | Velocity unfolding with two chirp intervals; TDM-MIMO fold test | [15 · Ambiguity and unfolding](https://kymopsis.com/radar-basics-ambiguity-resolution/?utm_source=github&utm_medium=readme&utm_campaign=radar-basics-sim) |
+| `examples/ch16_cfar_tracking.py` | Pfa, CA/OS-CFAR loss, Albersheim, Kalman tracking with M-of-N confirmation | [16 · Detection and tracking](https://kymopsis.com/radar-cfar-detection-and-tracking/?utm_source=github&utm_medium=readme&utm_campaign=radar-basics-sim) |
 | `examples/cfar_1d.py` | Cell-averaging CFAR detection on a range profile | 16 · Detection and tracking |
-| `examples/ch17_beamforming.py` | Steering, grating lobes, tapers, beam squint, phase quantisation, MVDR | 17 · Beamforming and phased arrays |
-| `examples/ch18_music_vs_fft.py` | Two close targets: FFT vs Capon vs MUSIC | 18 · Super-resolution |
-| `examples/ch19_4d_point_cloud.py` | 12TX/16RX cascade-style array: range-Doppler CFAR, azimuth and elevation, point cloud | 19 · 4D imaging radar |
-| `examples/ch20_frequency_bands.py` | 24 vs 60 vs 77–81 GHz: wavelength, resolution, gain, beamwidth, oxygen loss | 20 · Choosing the band |
-| `examples/ch21_processing_chain.py` | Real-time chain: 2-D CFAR, single-cell Doppler DFT, angle only at detections (3D FFT vs DFT vs subarray phase comparison, accuracy and cost), multi-target tracker | 21 · The processing chain |
+| `examples/ch17_beamforming.py` | Steering, grating lobes, tapers, beam squint, phase quantisation, MVDR | [17 · Beamforming and phased arrays](https://kymopsis.com/radar-beamforming-phased-array/?utm_source=github&utm_medium=readme&utm_campaign=radar-basics-sim) |
+| `examples/ch18_music_vs_fft.py` | Two close targets: FFT vs Capon vs MUSIC | [18 · Super-resolution](https://kymopsis.com/radar-super-resolution-music-capon/?utm_source=github&utm_medium=readme&utm_campaign=radar-basics-sim) |
+| `examples/ch19_4d_point_cloud.py` | 12TX/16RX cascade-style array: range-Doppler CFAR, azimuth and elevation, point cloud | [19 · 4D imaging radar](https://kymopsis.com/4d-imaging-radar-point-cloud/?utm_source=github&utm_medium=readme&utm_campaign=radar-basics-sim) |
+| `examples/ch20_frequency_bands.py` | 24 vs 60 vs 77–81 GHz: wavelength, resolution, gain, beamwidth, oxygen loss | [20 · Choosing the band](https://kymopsis.com/radar-frequency-bands-24-60-77-ghz/?utm_source=github&utm_medium=readme&utm_campaign=radar-basics-sim) |
+| `examples/ch21_processing_chain.py` | Real-time chain: 2-D CFAR, single-cell Doppler DFT, angle only at detections (3D FFT vs DFT vs subarray phase comparison, accuracy and cost), multi-target tracker | [21 · The processing chain](https://kymopsis.com/radar-signal-processing-chain-cfar-angle-tracking/?utm_source=github&utm_medium=readme&utm_campaign=radar-basics-sim) |
 
 **Renumbered 2026-11-09.** The series was reordered into teaching order (antennas moved to chapter 4, the radar
 equation to 7, CFAR and tracking to 16, and so on), and the scripts were renamed to match. The old file names still
